@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const knex = require("../database/config");
-const verifyToken = require('../../helpers/verify_token');
+const verifyToken = require('../../services/verify_token');
 
 router.get("/players/:id", async (req, res) => {
   const token = req.headers['accesstoken'];
@@ -33,8 +33,7 @@ router.put("/players", async (req, res) => {
       res.sendStatus(201);
     })
     .catch((err) => {
-      console.log(err);
-      res.sendStatus(500)
+      res.sendStatus(500).send({error: err})
     })
 })
 

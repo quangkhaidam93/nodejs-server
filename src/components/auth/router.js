@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const hashFunc = require("../../helpers/hash_pasword");
+const hashFunc = require("../../services/hash_pasword");
 const knex = require("../database/config");
 const jwt = require("jsonwebtoken");
 require('dotenv').config()
@@ -22,7 +22,6 @@ router.post("/signin", async (req, res) => {
           const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: process.env.ACCESS_TOKEN_LIFE
           });
-          console.log(process.env.REFRESH_TOKEN_LIFE)
           const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
             expiresIn: process.env.REFRESH_TOKEN_LIFE
           })
@@ -36,8 +35,7 @@ router.post("/signin", async (req, res) => {
       else res.status(404);
     }
     catch (err) {
-      console.log(err);
-      res.status(500);
+      res.status(500).send({error: err});
     }
   }
   res.status(404);
@@ -45,7 +43,6 @@ router.post("/signin", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const hashedPassword = await hashFunc.hashPassword(req.body['password']);
-  console.log('o day', hashedPassword);
   const newPlayer = {
     fullName: req.body['fullName'],
     mail: req.body['mail'],
@@ -59,8 +56,7 @@ router.post("/signup", async (req, res) => {
       res.sendStatus(201);
     })
     .catch((err) => {
-      console.log(err);
-      res.sendStatus(500)
+      res.sendStatus(500).send({error: err})
     })
 })
 

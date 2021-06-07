@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const verifyToken = require('../../helpers/verify_token');
+const verifyToken = require('../../services/verify_token');
 require('dotenv').config()
 
 router.post("/renew-token", async (req, res) => {

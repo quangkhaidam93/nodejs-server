@@ -7,6 +7,10 @@ const matchRouter = require("./components/match/router");
 const authRouter = require("./components/auth/router");
 const tokenRouter = require("./components/token/router");
 const socket = require("./components/sockets/socket");
+const tTokenRouter = require("./components/tToken/router");
+const productRouter = require("./components/products/router");
+const orderRouter = require("./components/orders/router");
+const tokenCheckerMiddleware = require("./middlewares/tokenChecker");
 var cors = require('cors')
 var bodyParser = require("body-parser");
 
@@ -15,7 +19,11 @@ const app = express();
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use([socketRouter, playerRouter, matchRouter, authRouter, tokenRouter]);
+// app.use([socketRouter, playerRouter, matchRouter, authRouter, tokenRouter]);
+// app.use('/private', tokenCheckerMiddleware, tTokenRouter, productRouter, orderRouter);
+// app.use('/public', orderRouter);
+
+app.use('/api', orderRouter, productRouter);
 
 const server = http.createServer(app);
 
@@ -23,12 +31,6 @@ socket.startSocket(server);
 
 server.listen(port, () => console.log(`Listening on port ${port}`));
 
-const fs = require('fs');
-
-const file = fs.createWriteStream("file.jpg");
-const request = http.get("http://i3.ytimg.com/vi/J---aiyznGQ/mqdefault.jpg", function(response) {
-  console.log(typeof response);
-});
 
 
 

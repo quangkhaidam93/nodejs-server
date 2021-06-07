@@ -1,0 +1,12 @@
+const statusCode = {
+  QUERY_SUCCESS: 200,
+  EDIT_SUCCESS: 200,
+  DELETE_SUCCESS: 200,
+  CREATE_SUCCESS: 201,
+  BAD_REQUEST: 400,
+  INVALID_TOKEN: 401,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500
+}
+
+module.exports = statusCode;
